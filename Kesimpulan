@@ -1,0 +1,41 @@
+Laporan Analisis Data Airbnb NYC dengan Metode STAR
+
+1. SITUATION (Situasi)
+Kondisi Industri: Perusahaan akomodasi seperti Airbnb menghadapi tantangan besar untuk menyeimbangkan ekosistem bisnisnya. Platform harus mampu memberikan jaminan keuntungan finansial bagi pemilik properti (host), sekaligus mempertahankan kepuasan penyewa melalui harga yang rasional dan terjangkau.
+
+Akar Masalah: Airbnb memberikan kebebasan penuh bagi para host untuk menentukan tarif sewa listing mereka sendiri dengan petunjuk pembanding yang sangat minimal. Hal ini memicu variasi harga yang tidak standar dan menyulitkan properti baru untuk bersaing secara sehat di pasar yang semakin padat.
+
+2. TASK (Tugas)
+Tujuan Utama: Membangun sebuah perangkat analitik berbasis model regresi prediktif yang dapat membantu memberikan estimasi harga sewa properti baru secara otomatis dan akurat berdasarkan fitur-fitur spesifik yang dimiliki.
+
+Tolok Ukur Keberhasilan: Kinerja model dievaluasi menggunakan metrik statistik RMSE (nilai rataan akar kuadrat dari error), MAE (rataan nilai absolut error), dan MAPE (rataan persentase error). Model dianggap semakin akurat jika nilai ketiga metrik ini semakin mengecil dan nilai R-squared (khusus untuk pendekatan linear) mendekati angka 1.
+
+3. ACTION (Tindakan)
+Eksplorasi Geografis & Spasial: Melakukan pemetaan koordinat (latitude & longitude) untuk menganalisis persebaran listing di 5 wilayah utama (Neighbourhood Group): Bronx, Brooklyn, Manhattan, Queens, dan Staten Island.
+
+Analisis Pembentukan Harga Median: Membedah hubungan antara jenis kamar (room_type) dan wilayah administrasi terhadap harga. Berdasarkan data yang diekstrak, ditemukan pola harga median sebagai berikut:
+
+Manhattan: Menjadi wilayah termahal dengan median tarif Entire home/apt sebesar USD 191, Private room USD 90, dan Shared room USD 69.
+
+Staten Island & Bronx: Menjadi wilayah dengan tarif paling ekonomis (median tarif Shared room berkisar antara USD 30 - USD 40).
+
+Rekayasa Fitur & Pemodelan: Menerapkan teknik One-Hot Encoding untuk variabel kategorikal (seperti tipe kamar dan nama wilayah) sebelum melatih model regresi. Selanjutnya, hyperparameter tuning diterapkan secara komprehensif untuk meminimalkan deviasi error dari model.
+
+4. RESULT (Hasil)
+Akurasi Model: Setelah proses hyperparameter tuning, model menghasilkan skor RMSE sebesar 43.28 untuk memprediksi listing dengan batasan harga maksimal USD 321. Hal ini berarti prediksi harga rata-rata meleset kurang lebih sebesar USD 43 dari harga aktualnya.
+
+Prediktor Dominan: Berdasarkan grafik Feature Importances, variabel tipe kamar (One Hot__x1_Private room dan One Hot__x1_Shared room) serta indikator lokasi (One Hot__x0_Manhattan) terbukti secara ilmiah menjadi fitur yang paling berpengaruh secara dominan terhadap pembentukan harga target (price).
+
+KESIMPULAN
+Fitur room_type dan neighbourhood_group valid dinyatakan sebagai pilar utama pembentuk skema harga listing Airbnb di New York City.
+
+Meskipun model telah di-tuning, visualisasi korelasi antara harga aktual dan prediksi masih menunjukkan bias atau variansi yang cukup tinggi. Deviasi rata-rata sebesar USD 43 ini terjadi akibat keterbatasan fitur pada dataset primer. Model belum memiliki akses ke variabel kritis properti lainnya seperti luas bangunan (m²), jumlah spesifik kamar tidur/kamar mandi, dan fasilitas internal (amenities) seperti ketersediaan makanan gratis, handuk, atau akses kolam renang yang secara riil sangat memengaruhi nilai jual akomodasi.
+
+REKOMENDASI STRATEGIS
+Error Analysis Secara Segmented: Mengelompokkan data yang menghasilkan error ekstrem ke dalam kelompok Overestimation (5%) dan Underestimation (5%), lalu membandingkannya dengan kelompok mayoritas (90%). Hal ini membantu mendeteksi anomali pada variabel independen tertentu guna perbaikan taktik feature engineering.
+
+Pengayaan Fitur Korelatif: Mengintegrasikan metrik baru yang memiliki tingkat korelasi lebih kuat terhadap target harga, seperti jarak absolut properti ke pusat kota (pusat wisata) atau stasiun transportasi umum terdekat.
+
+Pemanfaatan Sentimen Ulasan (Sentiment Analysis Review): Jika memungkinkan untuk mengambil data ulasan langsung dari sistem internal Airbnb, konversikan sentimen teks pelanggan ke dalam matriks skor (contoh: -1 untuk ulasan negatif, 1 untuk ulasan positif). Nilai rata-rata sentimen per listing ini dapat dimanfaatkan sebagai fitur baru untuk meningkatkan akurasi prediksi harga secara dinamis.
+
+Catatan: File laporan di atas telah disusun dengan rapi dalam format PDF profesional menggunakan skema warna korporat yang bersih (Analisis_Airbnb_NYC_STAR.pdf), siap Anda gunakan untuk keperluan presentasi atau dokumentasi formal.
